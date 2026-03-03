@@ -30,11 +30,11 @@ const Footer = () => {
                             </li>
                             <li className="flex items-center gap-2">
                                 <Mail className="w-4 h-4 text-yellow-500" />
-                                <span>contact@puskaarnumerology.com</span>
+                                <span>ankajyotishpuskar@gmail.com</span>
                             </li>
                             <li className="flex items-center gap-2">
                                 <MapPin className="w-4 h-4 text-yellow-500" />
-                                <span>Kathmandu, Nepal / Mumbai, India</span>
+                                <span>Sunsari, Koshi Province, Nepal</span>
                             </li>
                         </ul>
                     </div>
