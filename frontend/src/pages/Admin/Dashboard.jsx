@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { adminApi, numerologyApi } from '../../services/api';
+import api, { adminApi, numerologyApi } from '../../services/api';
 import { Users, CheckCircle, Trash2, LogOut, Search, Filter, BookOpen, Plus, Edit2, X, Image as ImageIcon, User, Play } from 'lucide-react';
 
 const AdminDashboard = () => {
@@ -197,7 +197,6 @@ const AdminDashboard = () => {
     // Profile Actions
     const handleProfileSubmit = async (e) => {
         e.preventDefault();
-        if (!profile) return;
         setProfileLoading(true);
 
         const formData = new FormData();
@@ -212,7 +211,12 @@ const AdminDashboard = () => {
         }
 
         try {
-            await adminApi.updateProfile(profile.id, formData);
+            if (profile) {
+                await adminApi.updateProfile(profile.id, formData);
+            } else {
+                // If no profile exists, create one (Post to profile endpoint)
+                await api.post('profile/', formData, { headers: { 'Content-Type': 'multipart/form-data' } });
+            }
             alert("Profile updated successfully!");
             fetchData();
         } catch (error) {
@@ -666,6 +670,66 @@ const AdminDashboard = () => {
                                     className="flex-[2] bg-yellow-500 text-slate-950 font-bold py-3 rounded-xl hover:bg-yellow-400 transition-all shadow-lg shadow-yellow-500/20 disabled:opacity-50"
                                 >
                                     {blogFormLoading ? 'Processing...' : editingBlog ? 'Update Post' : 'Publish Blog Post'}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
+
+            {/* Video Modal */}
+            {isVideoModalOpen && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm">
+                    <div className="relative w-full max-w-md bg-slate-800 border border-slate-700 rounded-3xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
+                        <div className="p-6 border-b border-slate-700 flex items-center justify-between">
+                            <h3 className="text-xl font-bold text-white flex items-center gap-2">
+                                <Play className="w-5 h-5 text-yellow-500" />
+                                Add New Video
+                            </h3>
+                            <button onClick={() => setIsVideoModalOpen(false)} className="text-slate-500 hover:text-white transition-colors">
+                                <X className="w-6 h-6" />
+                            </button>
+                        </div>
+
+                        <form onSubmit={handleVideoSubmit} className="p-6 space-y-6">
+                            <div className="space-y-2">
+                                <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Video Title</label>
+                                <input
+                                    type="text"
+                                    required
+                                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-yellow-500 outline-none transition-all"
+                                    placeholder="e.g. Life Path 7 Meaning"
+                                    value={videoFormData.title}
+                                    onChange={(e) => setVideoFormData({ ...videoFormData, title: e.target.value })}
+                                />
+                            </div>
+
+                            <div className="space-y-2">
+                                <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">YouTube URL</label>
+                                <input
+                                    type="url"
+                                    required
+                                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-yellow-500 outline-none transition-all"
+                                    placeholder="https://www.youtube.com/watch?v=..."
+                                    value={videoFormData.url}
+                                    onChange={(e) => setVideoFormData({ ...videoFormData, url: e.target.value })}
+                                />
+                            </div>
+
+                            <div className="flex gap-4 pt-4">
+                                <button
+                                    type="button"
+                                    onClick={() => setIsVideoModalOpen(false)}
+                                    className="flex-grow bg-slate-700 text-white font-bold py-3 rounded-xl hover:bg-slate-600 transition-all"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    type="submit"
+                                    disabled={videoFormLoading}
+                                    className="flex-[2] bg-yellow-500 text-slate-950 font-bold py-3 rounded-xl hover:bg-yellow-400 transition-all shadow-lg shadow-yellow-500/20 disabled:opacity-50"
+                                >
+                                    {videoFormLoading ? 'Adding...' : 'Add Video'}
                                 </button>
                             </div>
                         </form>
