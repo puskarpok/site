@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { numerologyApi } from '../services/api';
+import { numerologyApi, getMediaUrl } from '../services/api';
 import { Calendar, Tag, ChevronLeft, Share2 } from 'lucide-react';
 
 const BlogDetail = () => {
@@ -34,7 +34,7 @@ const BlogDetail = () => {
             </Link>
 
             <div className="h-96 w-full rounded-2xl overflow-hidden mb-8">
-                <img src={blog.image || "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=1200&q=80"} alt={blog.title} className="w-full h-full object-cover" />
+                <img src={getMediaUrl(blog.image) || "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=1200&q=80"} alt={blog.title} className="w-full h-full object-cover" />
             </div>
 
             <div className="flex flex-wrap items-center gap-6 mb-8 text-sm text-slate-400 border-b border-slate-800 pb-8">

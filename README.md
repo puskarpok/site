@@ -4,8 +4,8 @@ A full-stack web application for professional numerology consultations, featurin
 
 ## 🚀 Features
 - **Smart BS Numerology Calculator**: Advanced Pythagoras system supporting Nepali (BS) dates with auto-formatting and visual date picker.
-- **Appointment Management**: Real-time booking system for clients.
 - **Admin Dashboard**: Secure JWT-protected panel for managing appointments, blogs, and videos.
+- **Block Letter Formatting Tool**: Instant uppercase conversion for blog titles and content in the Dashboard.
 - **YouTube Integration**: Seamless video feed from professional numerology sessions.
 - **Responsive Design**: Premium dark-themed UI built with React & Tailwind CSS.
 

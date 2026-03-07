@@ -1,8 +1,17 @@
 import axios from 'axios';
 
+const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api/';
 const api = axios.create({
-    baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api/',
+    baseURL: BASE_URL,
 });
+
+export const getMediaUrl = (path) => {
+    if (!path) return null;
+    if (path.startsWith('http')) return path;
+    // Remove /api/ from end of base URL to get root
+    const rootUrl = BASE_URL.replace(/\/api\/?$/, '');
+    return `${rootUrl}${path.startsWith('/') ? '' : '/'}${path}`;
+};
 
 api.interceptors.request.use((config) => {
     const token = localStorage.getItem('token');

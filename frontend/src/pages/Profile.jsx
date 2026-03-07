@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { numerologyApi } from '../services/api';
+import { numerologyApi, getMediaUrl } from '../services/api';
 import { User, Award, Briefcase, Star, CheckCircle } from 'lucide-react';
 
 const Profile = () => {
@@ -33,7 +33,7 @@ const Profile = () => {
                     <div className="bg-slate-800 rounded-3xl overflow-hidden shadow-2xl border border-slate-700 sticky top-24">
                         <div className="aspect-square bg-slate-700 flex items-center justify-center">
                             <img
-                                src="/puskaar_pokharel_profile.png"
+                                src={getMediaUrl(profile.photo) || "/puskaar_pokharel_profile.png"}
                                 alt={profile.name}
                                 className="w-full h-full object-cover"
                                 onError={(e) => {

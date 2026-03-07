@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import api, { adminApi, numerologyApi } from '../../services/api';
-import { Users, CheckCircle, Trash2, LogOut, Search, Filter, BookOpen, Plus, Edit2, X, Image as ImageIcon, User, Play } from 'lucide-react';
+import { Users, CheckCircle, Trash2, LogOut, Search, Filter, BookOpen, Plus, Edit2, X, Image as ImageIcon, User, Play, Type } from 'lucide-react';
 
 const AdminDashboard = () => {
     const [activeTab, setActiveTab] = useState('appointments');
@@ -142,6 +142,10 @@ const AdminDashboard = () => {
         } catch (error) {
             alert("Delete failed");
         }
+    };
+
+    const convertToBlockLetters = (field) => {
+        setBlogFormData({ ...blogFormData, [field]: blogFormData[field].toUpperCase() });
     };
 
     const handleLogout = () => {
@@ -607,7 +611,17 @@ const AdminDashboard = () => {
 
                         <form onSubmit={handleBlogSubmit} className="p-6 space-y-6">
                             <div>
-                                <label className="text-xs font-bold text-slate-500 uppercase mb-2 block">Post Title</label>
+                                <div className="flex justify-between items-center mb-2">
+                                    <label className="text-xs font-bold text-slate-500 uppercase">Post Title</label>
+                                    <button
+                                        type="button"
+                                        onClick={() => convertToBlockLetters('title')}
+                                        className="text-[10px] bg-slate-700 hover:bg-slate-600 text-yellow-500 px-2 py-1 rounded flex items-center gap-1 font-bold transition-all"
+                                    >
+                                        <Type className="w-3 h-3" />
+                                        BLOCK LETTERS
+                                    </button>
+                                </div>
                                 <input
                                     type="text"
                                     required
@@ -645,11 +659,22 @@ const AdminDashboard = () => {
                             </div>
 
                             <div>
-                                <label className="text-xs font-bold text-slate-500 uppercase mb-2 block">Content</label>
+                                <div className="flex justify-between items-center mb-2">
+                                    <label className="text-xs font-bold text-slate-500 uppercase">Content</label>
+                                    <button
+                                        type="button"
+                                        onClick={() => convertToBlockLetters('content')}
+                                        className="text-[10px] bg-slate-700 hover:bg-slate-600 text-yellow-500 px-2 py-1 rounded flex items-center gap-1 font-bold transition-all"
+                                        title="Convert all text to Block Letters (UPPERCASE)"
+                                    >
+                                        <Type className="w-3 h-3" />
+                                        BLOCK LETTERS
+                                    </button>
+                                </div>
                                 <textarea
                                     required
                                     rows="8"
-                                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-yellow-500 outline-none transition-all resize-none"
+                                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-yellow-500 outline-none transition-all resize-none font-mono text-sm leading-relaxed"
                                     placeholder="Write your blog content here..."
                                     value={blogFormData.content}
                                     onChange={(e) => setBlogFormData({ ...blogFormData, content: e.target.value })}
