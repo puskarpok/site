@@ -26,7 +26,7 @@ const Footer = () => {
                         <ul className="space-y-3 text-sm text-slate-400">
                             <li className="flex items-center gap-2">
                                 <Phone className="w-4 h-4 text-yellow-500" />
-                                <span>+977 9702935911</span>
+                                <span>9702935911</span>
                             </li>
                             <li className="flex items-center gap-2">
                                 <Mail className="w-4 h-4 text-yellow-500" />
@@ -41,7 +41,7 @@ const Footer = () => {
                 </div>
                 <div className="mt-12 pt-8 border-t border-slate-900 text-center text-slate-500 text-sm">
                     <p>© {new Date().getFullYear()} Numerologist Puskaar Pokharel. All rights reserved.</p>
-                    <p className="mt-2 text-yellow-600 font-medium">For remedies and personal consultation, contact: +977 9702935911</p>
+                    <p className="mt-2 text-yellow-600 font-medium">For remedies and personal consultation, contact: 9702935911</p>
                 </div>
             </div>
         </footer>

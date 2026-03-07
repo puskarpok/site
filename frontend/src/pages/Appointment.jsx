@@ -100,7 +100,7 @@ const Appointment = () => {
                                 type="email"
                                 required
                                 className="w-full bg-slate-900 border border-slate-700 rounded-xl pl-12 pr-4 py-4 text-white focus:border-yellow-500 outline-none transition-all"
-                                placeholder="email@example.com"
+                                placeholder="Your Email"
                                 value={formData.email}
                                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                             />
@@ -163,7 +163,7 @@ const Appointment = () => {
 
             <div className="mt-12 text-center p-6 border border-slate-700/30 rounded-2xl bg-slate-800/30">
                 <p className="text-slate-500 text-sm">
-                    For immediate support or questions before booking, please contact us directly at <span className="text-yellow-500 font-bold">+977 9702935911</span>.
+                    For immediate support or questions before booking, please contact us directly at <span className="text-yellow-500 font-bold">9702935911</span>.
                 </p>
             </div>
         </div>

@@ -7,6 +7,9 @@
 node_modules/
 dist/
 build/
+venv/
+.venv/
+env/
 
 # Backend (Django)
 __pycache__/
@@ -22,3 +25,4 @@ staticfiles/
 frontend/node_modules/
 frontend/dist/
 frontend/.env
+frontend/build/

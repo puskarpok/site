@@ -23,17 +23,41 @@ def get_char_value(char):
     return mapping.get(char, 0)
 
 def calculate_life_path(dob_str):
-    """Calculate Life Path Number from DOB (DD/MM/YYYY)."""
-    # Remove non-digits
-    digits = re.sub(r'\D', '', dob_str)
-    if not digits or len(digits) != 8:
-        return 0
+    """Calculate Life Path Number from DOB (expected YYYY-MM-DD or DD/MM/YYYY)."""
+    # Extract all numbers from the string
+    parts = re.findall(r'\d+', dob_str)
     
-    day = reduce_to_single_digit(int(digits[0:2]))
-    month = reduce_to_single_digit(int(digits[2:4]))
-    year = reduce_to_single_digit(int(digits[4:8]))
+    if len(parts) != 3:
+        # Fallback to summing all digits if format is non-standard
+        digits = re.sub(r'\D', '', dob_str)
+        if not digits: return 0
+        total = sum(int(d) for d in digits)
+        return reduce_to_single_digit(total)
     
-    return reduce_to_single_digit(day + month + year)
+    # Identify Year, Month, Day based on values
+    # Usually: YYYY is the 4-digit one, Month/Day are 1-2 digits
+    year = 0
+    month = 0
+    day = 0
+    
+    if len(parts[0]) == 4: # YYYY-MM-DD
+        year = int(parts[0])
+        month = int(parts[1])
+        day = int(parts[2])
+    elif len(parts[2]) == 4: # DD-MM-YYYY
+        day = int(parts[0])
+        month = int(parts[1])
+        year = int(parts[2])
+    else:
+        # Just sum them up if we can't tell
+        total = sum(reduce_to_single_digit(int(p)) for p in parts)
+        return reduce_to_single_digit(total)
+    
+    r_year = reduce_to_single_digit(year)
+    r_month = reduce_to_single_digit(month)
+    r_day = reduce_to_single_digit(day)
+    
+    return reduce_to_single_digit(r_year + r_month + r_day)
 
 def calculate_destiny_number(full_name):
     """Calculate Destiny Number from full name."""
