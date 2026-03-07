@@ -61,7 +61,7 @@ const Blog = () => {
                                 {blog.title}
                             </h2>
                             <p className="text-slate-400 text-sm line-clamp-3 mb-6">
-                                {blog.content.substring(0, 150)}...
+                                {blog.content.replace(/\[\/?(B|I|H)\]/g, '').substring(0, 150)}...
                             </p>
                             <div className="mt-auto">
                                 <Link to={`/blog/${blog.id}`} className="flex items-center gap-2 text-yellow-500 text-sm font-bold hover:gap-3 transition-all">

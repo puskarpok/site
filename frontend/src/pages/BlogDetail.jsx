@@ -65,9 +65,13 @@ const BlogDetail = () => {
             </h1>
 
             <div className="prose prose-invert prose-yellow max-w-none text-slate-300 leading-relaxed space-y-6 text-lg">
-                {blog.content.split('\n').map((para, idx) => (
-                    <p key={idx}>{para}</p>
-                ))}
+                {blog.content.split('\n').map((para, idx) => {
+                    const formatted = para
+                        .replace(/\[B\](.*?)\[\/B\]/g, '<strong>$1</strong>')
+                        .replace(/\[I\](.*?)\[\/I\]/g, '<em>$1</em>')
+                        .replace(/\[H\](.*?)\[\/H\]/g, '<mark class="bg-yellow-500/20 text-yellow-200 px-1 rounded">$1</mark>');
+                    return <p key={idx} dangerouslySetInnerHTML={{ __html: formatted }} />;
+                })}
             </div>
 
             <div className="mt-16 bg-slate-800 p-8 rounded-2xl text-center border border-slate-700">

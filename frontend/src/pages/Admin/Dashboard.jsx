@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import api, { adminApi, numerologyApi, getMediaUrl } from '../../services/api';
-import { Users, CheckCircle, Trash2, LogOut, Search, Filter, BookOpen, Plus, Edit2, X, Image as ImageIcon, User, Play, Type } from 'lucide-react';
+import { Users, CheckCircle, Trash2, LogOut, Search, Filter, BookOpen, Plus, Edit2, X, Image as ImageIcon, User, Play, Type, Bold, Italic, Highlighter } from 'lucide-react';
 
 const AdminDashboard = () => {
+    const contentRef = React.useRef(null);
     const [activeTab, setActiveTab] = useState('appointments');
     const [appointments, setAppointments] = useState([]);
     const [blogs, setBlogs] = useState([]);
@@ -144,8 +145,32 @@ const AdminDashboard = () => {
         }
     };
 
-    const convertToBlockLetters = (field) => {
-        setBlogFormData({ ...blogFormData, [field]: blogFormData[field].toUpperCase() });
+    const applyFormatting = (tag) => {
+        const textarea = contentRef.current;
+        if (!textarea) return;
+
+        const start = textarea.selectionStart;
+        const end = textarea.selectionEnd;
+        const text = textarea.value;
+        const selection = text.substring(start, end);
+
+        let beforeTag, afterTag;
+        switch (tag) {
+            case 'bold': beforeTag = '[B]'; afterTag = '[/B]'; break;
+            case 'italic': beforeTag = '[I]'; afterTag = '[/I]'; break;
+            case 'highlight': beforeTag = '[H]'; afterTag = '[/H]'; break;
+            default: return;
+        }
+
+        const newText = text.substring(0, start) + beforeTag + selection + afterTag + text.substring(end);
+
+        setBlogFormData({ ...blogFormData, content: newText });
+
+        // Return focus and set selection
+        setTimeout(() => {
+            textarea.focus();
+            textarea.setSelectionRange(start + beforeTag.length, end + beforeTag.length);
+        }, 0);
     };
 
     const handleLogout = () => {
@@ -470,6 +495,11 @@ const AdminDashboard = () => {
                                                         <div className="text-xs text-slate-400 flex items-center gap-2 mt-1">
                                                             {app.mobile} • {app.email}
                                                         </div>
+                                                        {app.message && (
+                                                            <div className="mt-2 p-2 bg-slate-900/50 rounded-lg text-xs text-slate-300 border border-slate-700/50 max-w-xs italic">
+                                                                "{app.message}"
+                                                            </div>
+                                                        )}
                                                     </td>
                                                     <td className="px-6 py-4">
                                                         <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase ${app.status === 'Contacted' ? 'bg-green-500/10 text-green-500 border border-green-500/20' : 'bg-yellow-500/10 text-yellow-500 border border-yellow-500/20'
@@ -624,14 +654,6 @@ const AdminDashboard = () => {
                             <div>
                                 <div className="flex justify-between items-center mb-2">
                                     <label className="text-xs font-bold text-slate-500 uppercase">Post Title</label>
-                                    <button
-                                        type="button"
-                                        onClick={() => convertToBlockLetters('title')}
-                                        className="text-[10px] bg-slate-700 hover:bg-slate-600 text-yellow-500 px-2 py-1 rounded flex items-center gap-1 font-bold transition-all"
-                                    >
-                                        <Type className="w-3 h-3" />
-                                        BLOCK LETTERS
-                                    </button>
                                 </div>
                                 <input
                                     type="text"
@@ -672,17 +694,35 @@ const AdminDashboard = () => {
                             <div>
                                 <div className="flex justify-between items-center mb-2">
                                     <label className="text-xs font-bold text-slate-500 uppercase">Content</label>
-                                    <button
-                                        type="button"
-                                        onClick={() => convertToBlockLetters('content')}
-                                        className="text-[10px] bg-slate-700 hover:bg-slate-600 text-yellow-500 px-2 py-1 rounded flex items-center gap-1 font-bold transition-all"
-                                        title="Convert all text to Block Letters (UPPERCASE)"
-                                    >
-                                        <Type className="w-3 h-3" />
-                                        BLOCK LETTERS
-                                    </button>
+                                    <div className="flex gap-1">
+                                        <button
+                                            type="button"
+                                            onClick={() => applyFormatting('bold')}
+                                            className="p-1.5 bg-slate-700 hover:bg-slate-600 text-yellow-500 rounded transition-all"
+                                            title="Bold [B]text[/B]"
+                                        >
+                                            <Bold className="w-3.5 h-3.5" />
+                                        </button>
+                                        <button
+                                            type="button"
+                                            onClick={() => applyFormatting('italic')}
+                                            className="p-1.5 bg-slate-700 hover:bg-slate-600 text-yellow-500 rounded transition-all"
+                                            title="Italic [I]text[/I]"
+                                        >
+                                            <Italic className="w-3.5 h-3.5" />
+                                        </button>
+                                        <button
+                                            type="button"
+                                            onClick={() => applyFormatting('highlight')}
+                                            className="p-1.5 bg-slate-700 hover:bg-slate-600 text-yellow-500 rounded transition-all"
+                                            title="Highlight [H]text[/H]"
+                                        >
+                                            <Highlighter className="w-3.5 h-3.5" />
+                                        </button>
+                                    </div>
                                 </div>
                                 <textarea
+                                    ref={contentRef}
                                     required
                                     rows="8"
                                     className="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-yellow-500 outline-none transition-all resize-none font-mono text-sm leading-relaxed"
