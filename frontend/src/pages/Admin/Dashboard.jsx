@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import api, { adminApi, numerologyApi } from '../../services/api';
+import api, { adminApi, numerologyApi, getMediaUrl } from '../../services/api';
 import { Users, CheckCircle, Trash2, LogOut, Search, Filter, BookOpen, Plus, Edit2, X, Image as ImageIcon, User, Play, Type } from 'lucide-react';
 
 const AdminDashboard = () => {
@@ -331,6 +331,11 @@ const AdminDashboard = () => {
                                         <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Profile Photo</label>
                                         <div className="relative">
                                             <ImageIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+                                            {profile && profile.photo && (
+                                                <div className="mb-2">
+                                                    <img src={getMediaUrl(profile.photo)} className="w-20 h-20 rounded-lg object-cover border border-slate-700" alt="Current" />
+                                                </div>
+                                            )}
                                             <input
                                                 type="file"
                                                 accept="image/*"
@@ -515,7 +520,7 @@ const AdminDashboard = () => {
                                                 <tr key={blog.id} className="hover:bg-slate-700/20 transition-colors">
                                                     <td className="px-6 py-4">
                                                         <div className="flex items-center gap-4">
-                                                            {blog.image && <img src={blog.image} className="w-10 h-10 rounded-lg object-cover" />}
+                                                            {blog.image && <img src={getMediaUrl(blog.image)} className="w-10 h-10 rounded-lg object-cover" />}
                                                             <div className="text-white font-bold">{blog.title}</div>
                                                         </div>
                                                     </td>

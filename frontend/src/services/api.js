@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api/';
+const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000/api/';
 const api = axios.create({
     baseURL: BASE_URL,
 });
@@ -8,9 +8,19 @@ const api = axios.create({
 export const getMediaUrl = (path) => {
     if (!path) return null;
     if (path.startsWith('http')) return path;
-    // Remove /api/ from end of base URL to get root
+
+    // Normalize root URL (remove /api/)
     const rootUrl = BASE_URL.replace(/\/api\/?$/, '');
-    return `${rootUrl}${path.startsWith('/') ? '' : '/'}${path}`;
+
+    // Ensure path has /media/ prefix if it's a relative Django path
+    let fullPath = path;
+    if (!path.startsWith('/media/') && !path.startsWith('media/')) {
+        fullPath = `/media/${path.startsWith('/') ? path.slice(1) : path}`;
+    } else if (path.startsWith('media/')) {
+        fullPath = `/${path}`;
+    }
+
+    return `${rootUrl}${fullPath}`;
 };
 
 api.interceptors.request.use((config) => {
