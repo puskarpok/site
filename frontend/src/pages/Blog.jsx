@@ -43,6 +43,7 @@ const Blog = () => {
                                 src={getMediaUrl(blog.image) || "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=800&q=80"}
                                 alt={blog.title}
                                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                                loading="lazy"
                                 onError={(e) => {
                                     e.target.onerror = null;
                                     e.target.src = "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=800&q=80";

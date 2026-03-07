@@ -36,6 +36,7 @@ const Profile = () => {
                                 src={getMediaUrl(profile.photo) || "/puskaar_pokharel_profile.png"}
                                 alt={profile.name}
                                 className="w-full h-full object-cover"
+                                loading="lazy"
                                 onError={(e) => {
                                     e.target.onerror = null;
                                     e.target.src = "https://ui-avatars.com/api/?name=Puskaar+Pokharel&background=d4af37&color=1a1a1a&size=512";
