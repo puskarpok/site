@@ -39,7 +39,15 @@ const Blog = () => {
                 {blogs.map((blog) => (
                     <div key={blog.id} className="bg-slate-800 rounded-2xl overflow-hidden border border-slate-700 flex flex-col group">
                         <div className="h-48 overflow-hidden">
-                            <img src={getMediaUrl(blog.image) || "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=800&q=80"} alt={blog.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                            <img
+                                src={getMediaUrl(blog.image) || "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=800&q=80"}
+                                alt={blog.title}
+                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                                onError={(e) => {
+                                    e.target.onerror = null;
+                                    e.target.src = "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=800&q=80";
+                                }}
+                            />
                         </div>
                         <div className="p-6 flex-grow flex flex-col">
                             <div className="flex items-center gap-4 text-xs text-yellow-500 font-bold uppercase tracking-wider mb-4">

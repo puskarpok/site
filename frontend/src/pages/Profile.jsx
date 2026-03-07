@@ -46,7 +46,7 @@ const Profile = () => {
                             <h2 className="text-2xl font-bold gold-text mb-1">{profile.name}</h2>
                             <p className="text-slate-400 text-sm mb-4">Senior Numerologist & Financial Coach</p>
                             <div className="flex justify-center gap-4">
-                                <button onClick={() => window.open('https://www.facebook.com/puspa.pokharel.5', '_blank')} className="bg-yellow-500 text-slate-900 px-6 py-2 rounded-full font-bold text-sm hover:bg-yellow-600 transition-color">Follow</button>
+                                <button onClick={() => window.open('https://www.tiktok.com/@puskaar15', '_blank')} className="bg-yellow-500 text-slate-900 px-6 py-2 rounded-full font-bold text-sm hover:bg-yellow-600 transition-color">Follow</button>
                             </div>
                         </div>
                     </div>

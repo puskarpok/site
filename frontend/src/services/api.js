@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000/api/';
+const BASE_URL = import.meta.env.VITE_API_BASE_URL || (typeof window !== 'undefined' ? `${window.location.protocol}//${window.location.host}/api/` : 'http://localhost:8000/api/');
 const api = axios.create({
     baseURL: BASE_URL,
 });
@@ -10,7 +10,10 @@ export const getMediaUrl = (path) => {
     if (path.startsWith('http')) return path;
 
     // Normalize root URL (remove /api/)
-    const rootUrl = BASE_URL.replace(/\/api\/?$/, '');
+    // If BASE_URL is relative, use window.location.origin
+    const rootUrl = BASE_URL.includes('://')
+        ? BASE_URL.replace(/\/api\/?$/, '')
+        : (typeof window !== 'undefined' ? window.location.origin : '');
 
     // Ensure path has /media/ prefix if it's a relative Django path
     let fullPath = path;

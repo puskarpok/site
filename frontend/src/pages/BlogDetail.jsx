@@ -34,7 +34,15 @@ const BlogDetail = () => {
             </Link>
 
             <div className="h-96 w-full rounded-2xl overflow-hidden mb-8">
-                <img src={getMediaUrl(blog.image) || "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=1200&q=80"} alt={blog.title} className="w-full h-full object-cover" />
+                <img
+                    src={getMediaUrl(blog.image) || "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=1200&q=80"}
+                    alt={blog.title}
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=1200&q=80";
+                    }}
+                />
             </div>
 
             <div className="flex flex-wrap items-center gap-6 mb-8 text-sm text-slate-400 border-b border-slate-800 pb-8">

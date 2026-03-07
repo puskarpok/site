@@ -520,7 +520,13 @@ const AdminDashboard = () => {
                                                 <tr key={blog.id} className="hover:bg-slate-700/20 transition-colors">
                                                     <td className="px-6 py-4">
                                                         <div className="flex items-center gap-4">
-                                                            {blog.image && <img src={getMediaUrl(blog.image)} className="w-10 h-10 rounded-lg object-cover" />}
+                                                            {blog.image && (
+                                                                <img
+                                                                    src={getMediaUrl(blog.image)}
+                                                                    className="w-10 h-10 rounded-lg object-cover"
+                                                                    onError={(e) => e.target.style.display = 'none'}
+                                                                />
+                                                            )}
                                                             <div className="text-white font-bold">{blog.title}</div>
                                                         </div>
                                                     </td>
