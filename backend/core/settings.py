@@ -83,27 +83,22 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-db_from_env = dj_database_url.config(
-    default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
-    conn_max_age=600,
-    conn_health_checks=True,
-)
-
-# If using MySQL on Render (like Aiven), ensure SSL and parameters are handled correctly for PyMySQL
-if db_from_env.get('ENGINE') == 'django.db.backends.mysql':
-    # Ensure OPTIONS exists
-    db_from_env.setdefault('OPTIONS', {})
-    
-    # Remove 'ssl-mode' if it was parsed from the URL, as PyMySQL doesn't support it directly
-    db_from_env['OPTIONS'].pop('ssl-mode', None)
-    
-    # Explicitly set SSL for Aiven or Production
-    db_from_env['OPTIONS']['ssl'] = {'ca': True}
-    db_from_env['OPTIONS']['charset'] = 'utf8mb4'
-
 DATABASES = {
-    'default': db_from_env
+    'default': dj_database_url.config(
+        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
+        conn_max_age=600,
+        conn_health_checks=True,
+    )
 }
+
+# Add SSL requirement for production/Aiven databases if using Postgres or MySQL
+if DATABASES['default'].get('ENGINE') in [
+    'django.db.backends.postgresql',
+    'django.db.backends.mysql'
+]:
+    DATABASES['default'].setdefault('OPTIONS', {})
+    if not DEBUG or 'sslmode' in os.getenv('DATABASE_URL', ''):
+        DATABASES['default']['OPTIONS']['sslmode'] = 'require'
 
 
 # Password validation
