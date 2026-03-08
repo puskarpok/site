@@ -154,6 +154,11 @@ CORS_ALLOWED_ORIGINS = os.getenv('CORS_ALLOWED_ORIGINS', '').split(',') if os.ge
     "https://puskaar.netlify.app",
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://puskaar.netlify.app",
+    "https://puskaar-backend.onrender.com",
+]
+
 # Production Security
 if not DEBUG:
     # Only redirect to SSL if not on localhost/127.0.0.1
