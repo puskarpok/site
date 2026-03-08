@@ -89,12 +89,16 @@ db_from_env = dj_database_url.config(
     conn_health_checks=True,
 )
 
-# If using MySQL on Render (like Aiven), ensure SSL and charset are handled correctly for PyMySQL
+# If using MySQL on Render (like Aiven), ensure SSL and parameters are handled correctly for PyMySQL
 if db_from_env.get('ENGINE') == 'django.db.backends.mysql':
+    # Ensure OPTIONS exists
     db_from_env.setdefault('OPTIONS', {})
-    # Use SSL if the URL implies it or if we're in production
-    if 'ssl-mode' in os.getenv('DATABASE_URL', '') or not DEBUG:
-        db_from_env['OPTIONS']['ssl'] = {'ca': True}
+    
+    # Remove 'ssl-mode' if it was parsed from the URL, as PyMySQL doesn't support it directly
+    db_from_env['OPTIONS'].pop('ssl-mode', None)
+    
+    # Explicitly set SSL for Aiven or Production
+    db_from_env['OPTIONS']['ssl'] = {'ca': True}
     db_from_env['OPTIONS']['charset'] = 'utf8mb4'
 
 DATABASES = {
