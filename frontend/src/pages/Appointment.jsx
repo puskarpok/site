@@ -17,8 +17,19 @@ const Appointment = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
+
+        // Map frontend fields to backend model fields
+        const payload = {
+            full_name: formData.name,
+            mobile_number: formData.mobile,
+            email: formData.email,
+            preferred_date: formData.date,
+            preferred_time: formData.time,
+            message: formData.message
+        };
+
         try {
-            await numerologyApi.submitAppointment(formData);
+            await numerologyApi.submitAppointment(payload);
             setSubmitted(true);
         } catch (error) {
             console.error("Booking failed", error);
