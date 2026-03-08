@@ -1,6 +1,18 @@
 import axios from 'axios';
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL || (typeof window !== 'undefined' ? `${window.location.protocol}//${window.location.host}/api/` : 'http://localhost:8000/api/');
+const getBaseUrl = () => {
+    const envUrl = import.meta.env.VITE_API_BASE_URL;
+    const isLocalhost = typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+
+    // If we're on a live site but the env variable is hardcoded to localhost, ignore it
+    if (!isLocalhost && envUrl && envUrl.includes('localhost')) {
+        return `${window.location.protocol}//${window.location.host}/api/`;
+    }
+
+    return envUrl || (typeof window !== 'undefined' ? `${window.location.protocol}//${window.location.host}/api/` : 'http://localhost:8000/api/');
+};
+
+const BASE_URL = getBaseUrl();
 console.log("🚀 Numerology API Base URL:", BASE_URL);
 
 const api = axios.create({

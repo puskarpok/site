@@ -1,1 +1,5 @@
-/* /index.html 200
+# Proxy API requests to the backend (Replace with your actual Render URL if needed)
+/api/*  :splat  200
+
+# Fallback for React Router
+/*  /index.html  200

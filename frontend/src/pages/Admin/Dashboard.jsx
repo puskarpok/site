@@ -275,13 +275,16 @@ const AdminDashboard = () => {
             {/* Header */}
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
                 <div>
-                    <h1 className="text-3xl font-bold text-white flex items-center gap-3">
+                    <h1 className="text-3xl font-bold text-white flex flex-wrap items-center gap-3">
                         <div className="bg-yellow-500/20 p-2 rounded-lg">
                             <Users className="w-8 h-8 text-yellow-500" />
                         </div>
                         Admin Dashboard
+                        <div className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${api.defaults.baseURL.includes('localhost') ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20' : 'bg-green-500/10 text-green-400 border border-green-500/20'}`}>
+                            {api.defaults.baseURL.includes('localhost') ? 'Local Mode' : 'Live Mode'}
+                        </div>
                     </h1>
-                    <p className="text-slate-400 mt-1">Manage your consultations and content </p>
+                    <p className="text-slate-400 mt-1">Managing: <span className="text-xs font-mono">{api.defaults.baseURL}</span></p>
                 </div>
                 <button
                     onClick={handleLogout}
