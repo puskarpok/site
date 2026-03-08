@@ -17,7 +17,6 @@ googleapis-common-protos==1.66.0
 gunicorn==23.0.0
 httplib2==0.22.0
 idna==3.10
-mysqlclient==2.2.8
 packaging==24.2
 pillow==11.1.0
 proto-plus==1.25.0
