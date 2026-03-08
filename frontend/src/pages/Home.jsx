@@ -47,7 +47,7 @@ const Home = () => {
         <div className="max-w-4xl mx-auto px-4 py-12">
             <div className="text-center mb-12">
                 <h1 className="text-4xl md:text-5xl font-extrabold mb-4 gold-text">
-                    Free Pythagoras Numerology Calculator
+                    Free Chaldean Numerology Calculator
                 </h1>
                 <p className="text-slate-400 text-lg">
                     Know your Life Path, Destiny, Soul Urge, and Personality Numbers.

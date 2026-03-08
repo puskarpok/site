@@ -9,7 +9,7 @@ const Footer = () => {
                     <div>
                         <h3 className="text-xl font-bold gold-text mb-4">Numerology By Puskaar</h3>
                         <p className="text-slate-400 text-sm leading-relaxed">
-                            Discover the hidden power of numbers in your life. Expert guidance in Pythagoras Numerology for personal growth, career, and relationships.
+                            Discover the hidden power of numbers in your life. Expert guidance in Chaldean Numerology for personal growth, career, and relationships.
                         </p>
                     </div>
                     <div>

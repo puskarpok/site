@@ -33,7 +33,10 @@ class AboutContentViewSet(viewsets.ModelViewSet):
     queryset = AboutContent.objects.all()
     serializer_class = AboutContentSerializer
 
+from rest_framework.decorators import api_view, permission_classes, authentication_classes
+
 @api_view(['POST'])
+@authentication_classes([])
 @permission_classes([permissions.AllowAny])
 def calculate_numerology(request):
     name = request.data.get('name')

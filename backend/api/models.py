@@ -23,7 +23,7 @@ class Appointment(models.Model):
     email = models.EmailField()
     date = models.DateField()
     time = models.TimeField()
-    message = models.TextField()
+    message = models.TextField(blank=True, null=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Pending')
     created_at = models.DateTimeField(auto_now_add=True)
 
