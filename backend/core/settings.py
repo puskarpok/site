@@ -91,6 +91,12 @@ DATABASES = {
     )
 }
 
+# If using MySQL on Render (like Aiven), ensure SSL is handled
+if DATABASES['default'].get('ENGINE') == 'django.db.backends.mysql':
+    DATABASES['default']['OPTIONS'] = {
+        'ssl': {'ca': True}  # PyMySQL will use system CA if set like this, or we can use specific options
+    }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
