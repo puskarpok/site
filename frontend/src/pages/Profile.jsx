@@ -2,8 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { numerologyApi, getMediaUrl } from '../services/api';
 import { User, Award, Briefcase, Star, CheckCircle } from 'lucide-react';
 
+const DEFAULT_PROFILE = {
+    name: "Puskaar Pokharel",
+    bio: "Puskaar Pokharel is a distinguished Senior Numerologist and Financial Coach with years of experience helping individuals and organizations align their life path with their financial goals. Through the ancient wisdom of Pythagorean Numerology combined with modern financial strategies, he provides a unique perspective on personal development and professional success.\n\nHis approach is deeply personalized, focusing on the unique vibrations of numbers to unlock hidden potential and navigate life's challenges with clarity and confidence.",
+    experience: "10+ Years in Professional Numerology\nCertified Financial Risk Manager\nConsulted 5000+ Clients Worldwide",
+    achievements: "Author of 'Numbers & Wealth'\nFeatured in National Media\nKeynote Speaker at International Spirituality Forums",
+    services: "Personal Numerology Audit, Financial Path Coaching, Name Vibration Correction, Corporate Numerology Consulting",
+    past_works: "Helping transition struggling entrepreneurs into successful business leaders through name corrections and strategy alignment."
+};
+
 const Profile = () => {
-    const [profile, setProfile] = useState(null);
+    const [profile, setProfile] = useState(DEFAULT_PROFILE);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -14,7 +23,7 @@ const Profile = () => {
                     setProfile(response.data[0]);
                 }
             } catch (error) {
-                console.error("Failed to fetch profile", error);
+                console.error("Failed to fetch profile, using default.", error);
             } finally {
                 setLoading(false);
             }
