@@ -1,5 +1,4 @@
 # Common
-.env
 .env.local
 .env.*.local
 *.log
@@ -24,5 +23,4 @@ staticfiles/
 # Frontend
 frontend/node_modules/
 frontend/dist/
-frontend/.env
 frontend/build/
