@@ -2,6 +2,15 @@ import React, { useEffect, useState } from 'react';
 import api, { adminApi, numerologyApi, getMediaUrl } from '../../services/api';
 import { Users, CheckCircle, Trash2, LogOut, Search, Filter, BookOpen, Plus, Edit2, X, Image as ImageIcon, User, Play, Type, Bold, Italic, Highlighter } from 'lucide-react';
 
+const DEFAULT_PROFILE = {
+    name: "Puskaar Pokharel",
+    bio: "Puskaar Pokharel is a distinguished Senior Numerologist and Financial Coach with years of experience helping individuals and organizations align their life path with their financial goals. Through the ancient wisdom of Pythagorean Numerology combined with modern financial strategies, he provides a unique perspective on personal development and professional success.\n\nHis approach is deeply personalized, focusing on the unique vibrations of numbers to unlock hidden potential and navigate life's challenges with clarity and confidence.",
+    experience: "10+ Years in Professional Numerology\nCertified Financial Risk Manager\nConsulted 5000+ Clients Worldwide",
+    achievements: "Author of 'Numbers & Wealth'\nFeatured in National Media\nKeynote Speaker at International Spirituality Forums",
+    services: "Personal Numerology Audit, Financial Path Coaching, Name Vibration Correction, Corporate Numerology Consulting",
+    past_works: "Helping transition struggling entrepreneurs into successful business leaders through name corrections and strategy alignment."
+};
+
 const AdminDashboard = () => {
     const contentRef = React.useRef(null);
     const [activeTab, setActiveTab] = useState('appointments');
@@ -26,12 +35,12 @@ const AdminDashboard = () => {
 
     // Profile Form State
     const [profileFormData, setProfileFormData] = useState({
-        name: '',
-        bio: '',
-        experience: '',
-        services: '',
-        past_works: '',
-        achievements: '',
+        name: DEFAULT_PROFILE.name,
+        bio: DEFAULT_PROFILE.bio,
+        experience: DEFAULT_PROFILE.experience,
+        services: DEFAULT_PROFILE.services,
+        past_works: DEFAULT_PROFILE.past_works,
+        achievements: DEFAULT_PROFILE.achievements,
         photo: null
     });
     const [profileLoading, setProfileLoading] = useState(false);
@@ -64,6 +73,12 @@ const AdminDashboard = () => {
                         services: p.services,
                         past_works: p.past_works,
                         achievements: p.achievements,
+                        photo: null
+                    });
+                } else {
+                    // Fallback to defaults in form if nothing in DB
+                    setProfileFormData({
+                        ...DEFAULT_PROFILE,
                         photo: null
                     });
                 }
