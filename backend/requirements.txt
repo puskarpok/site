@@ -20,6 +20,7 @@ packaging==24.2
 pillow==11.1.0
 proto-plus==1.25.0
 protobuf==5.29.3
+psycopg2-binary==2.9.10
 pycparser==2.22
 PyJWT==2.10.1
 pyparsing==3.2.1
