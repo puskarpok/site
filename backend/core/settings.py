@@ -83,19 +83,23 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-DATABASES = {
-    'default': dj_database_url.config(
-        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
-        conn_max_age=600,
-        conn_health_checks=True,
-    )
-}
+db_from_env = dj_database_url.config(
+    default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
+    conn_max_age=600,
+    conn_health_checks=True,
+)
 
-# If using MySQL on Render (like Aiven), ensure SSL is handled
-if DATABASES['default'].get('ENGINE') == 'django.db.backends.mysql':
-    DATABASES['default']['OPTIONS'] = {
-        'ssl': {'ca': True}  # PyMySQL will use system CA if set like this, or we can use specific options
-    }
+# If using MySQL on Render (like Aiven), ensure SSL and charset are handled correctly for PyMySQL
+if db_from_env.get('ENGINE') == 'django.db.backends.mysql':
+    db_from_env.setdefault('OPTIONS', {})
+    # Use SSL if the URL implies it or if we're in production
+    if 'ssl-mode' in os.getenv('DATABASE_URL', '') or not DEBUG:
+        db_from_env['OPTIONS']['ssl'] = {'ca': True}
+    db_from_env['OPTIONS']['charset'] = 'utf8mb4'
+
+DATABASES = {
+    'default': db_from_env
+}
 
 
 # Password validation
