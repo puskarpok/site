@@ -1,19 +1,31 @@
 import axios from 'axios';
 
 const getBaseUrl = () => {
-    const envUrl = import.meta.env.VITE_API_BASE_URL;
-    const isLocalhost = typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+    // Priority 1: Environment variable (Set this in Netlify to your Render API URL)
+    let envUrl = import.meta.env.VITE_API_BASE_URL;
+
+    // Priority 2: Detection logic
+    const isLocalhost = typeof window !== 'undefined' &&
+        (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
 
     // If we're on a live site but the env variable is hardcoded to localhost, ignore it
-    if (!isLocalhost && envUrl && envUrl.includes('localhost')) {
-        return `${window.location.protocol}//${window.location.host}/api/`;
+    if (!isLocalhost && envUrl && (envUrl.includes('localhost') || envUrl.includes('127.0.0.1'))) {
+        console.warn("⚠️ Production detected but API URL is set to localhost. Using relative path.");
+        return "/api/";
     }
 
-    return envUrl || (typeof window !== 'undefined' ? `${window.location.protocol}//${window.location.host}/api/` : 'http://localhost:8000/api/');
+    const finalUrl = envUrl || (typeof window !== 'undefined' ? `${window.location.protocol}//${window.location.host}/api/` : 'http://localhost:8000/api/');
+    return finalUrl;
 };
 
 const BASE_URL = getBaseUrl();
-console.log("🚀 Numerology API Base URL:", BASE_URL);
+console.log("%c🚀 Numerology API Terminal", "color: #d4af37; font-weight: bold; font-size: 12px;");
+console.log("📍 Connected to:", BASE_URL);
+if (BASE_URL.includes('localhost')) {
+    console.log("⚠️ WARNING: You are in LOCAL mode. Data saved here will ONLY stay on this computer.");
+} else {
+    console.log("✅ SUCCESS: You are in LIVE mode. Data saved here will be visible on ALL devices.");
+}
 
 const api = axios.create({
     baseURL: BASE_URL,
